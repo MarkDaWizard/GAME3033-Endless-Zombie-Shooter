@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 33842767130549670}
   - component: {fileID: 23153066502322858}
   - component: {fileID: 64181910784515640}
+  - component: {fileID: 7854648204081606287}
   m_Layer: 0
   m_Name: SM_Wep_AssaultRifle_01
   m_TagString: Untagged
@@ -283,6 +284,7 @@ Transform:
   - {fileID: 4467178002644394}
   - {fileID: 4511294836295628}
   - {fileID: 4907732309285560}
+  - {fileID: 3020051933485108810}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -350,3 +352,62 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43699194306653770, guid: 5f5046c6433960a4a9fe4aa6edaa5982, type: 2}
+--- !u!114 &7854648204081606287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900586067242068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b87e1e626e8d54b9ea8a49ae10d42c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gripLocation: {fileID: 3020051933485108810}
+  mainCamera: {fileID: 0}
+  weaponStats:
+    weaponName: AK47
+    damage: 50
+    bulletsInClip: 30
+    clipSize: 30
+    fireStartDelay: 0.07
+    fireRate: 0.125
+    fireDistance: 5000
+    isAutomatic: 1
+    weaponHitLayer:
+      serializedVersion: 2
+      m_Bits: 2147483647
+  isFiring: 0
+  isReloading: 0
+--- !u!1 &4917927851672235767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3020051933485108810}
+  m_Layer: 0
+  m_Name: GripIKSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3020051933485108810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4917927851672235767}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0902, y: 0.0127, z: 0.3354}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4023067158591890}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

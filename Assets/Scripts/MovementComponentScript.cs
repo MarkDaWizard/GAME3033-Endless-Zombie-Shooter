@@ -27,7 +27,7 @@ public class MovementComponentScript : MonoBehaviour
     public readonly int movementYHash = Animator.StringToHash("MovementY");
     public readonly int isJumpingHash = Animator.StringToHash("isJumping");
     public readonly int isRunningHash = Animator.StringToHash("isRunning");
-    public readonly int isFiringHash = Animator.StringToHash("isFiring");
+
 
     private void Awake()
     {
@@ -56,9 +56,9 @@ public class MovementComponentScript : MonoBehaviour
 
         var angle = followTarget.transform.localEulerAngles.x;
 
-        if (angle > 180 && angle < 300)
+        if (angle > 180 && angle < 290)
         {
-            angles.x = 300;
+            angles.x = 290;
         }
         else if (angle < 180 && angle > 70)
         {
@@ -114,16 +114,6 @@ public class MovementComponentScript : MonoBehaviour
 
     }
 
-    public void OnFire(InputValue value)
-    {
-        playerController.isFiring = value.isPressed;
-        playerAnimator.SetBool(isFiringHash, playerController.isFiring);
-    }
-
-    public void OnReload(InputValue value)
-    {
-
-    }
 
     public void OnCollisionEnter(Collision collision)
     {
