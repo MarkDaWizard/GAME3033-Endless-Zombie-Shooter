@@ -2,38 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum WeaponType { None, Pistol, Rifle }
+
+public enum WeaponFiringPattern { Single, Burst, Auto }
+
+[System.Serializable]
+public struct WeaponStats
+{
+    WeaponType weaponType;
+    WeaponFiringPattern firingMode;
+    public string weaponName;
+    public float damage;
+    public int bulletsInClip;
+    public int clipSize;
+    public float fireStartDelay;
+    public float fireRate;
+    public float fireDistance;
+    public bool isAutomatic;
+    public LayerMask weaponHitLayer;
+    public int totalBullets;
+}
+
 public class WeaponComponent : MonoBehaviour
 {
     public Transform gripLocation;
+    public Transform firingEffectPosition;
     public Camera mainCamera;
-    public enum WeaponType {None, Pistol, Rifle }
-    public enum WeaponFiringPattern {Single, Burst, Auto }
-
-    [System.Serializable]
-    public struct WeaponStats
-    {
-        WeaponType weaponType;
-        WeaponFiringPattern firingMode;
-        public string weaponName;
-        public float damage;
-        public int bulletsInClip;
-        public int clipSize;
-        public float fireStartDelay;
-        public float fireRate;
-        public float fireDistance;
-        public bool isAutomatic;
-        public LayerMask weaponHitLayer;
-    }
-
     protected WeaponHolderScript weaponHolder;
+
+    [SerializeField]
+    protected ParticleSystem firingEffect;
 
     [SerializeField]
     public WeaponStats weaponStats;
 
     public bool isFiring = false;
     public bool isReloading = false;
+   
     // Start is called before the first frame update 
-    void Start()
+    void Awake()
     {
         mainCamera = Camera.main;
     }
@@ -49,7 +56,7 @@ public class WeaponComponent : MonoBehaviour
         weaponHolder = _weaponHolder;
     }
 
-    public virtual void StartFiring()
+    public virtual void StartFiringWeapon()
     {
         isFiring = true;
         if(weaponStats.isAutomatic)
@@ -62,15 +69,49 @@ public class WeaponComponent : MonoBehaviour
         }
     }
 
-    public virtual void StopFiring()
+    public virtual void StopFiringWeapon()
     {
         isFiring = false;
         CancelInvoke(nameof(FireWeapon));
+        if (firingEffect.isPlaying)
+        {
+            firingEffect.Stop();
+        }
     }
 
     protected virtual void FireWeapon()
     {
         print("firing weapon");
         weaponStats.bulletsInClip--;
+    }
+
+    public virtual void StartReloading()
+    {
+        isReloading = true;
+        ReloadWeapon();
+    }
+
+    public virtual void StopReloading()
+    {
+        isReloading = false;
+    }
+
+    protected virtual void ReloadWeapon()
+    {
+        if (firingEffect.isPlaying)
+        {
+            firingEffect.Stop();
+        }
+        int bulletsToReload = weaponStats.clipSize - weaponStats.totalBullets;
+        if (bulletsToReload < 0)
+        {
+            weaponStats.bulletsInClip = weaponStats.clipSize;
+            weaponStats.totalBullets -= weaponStats.clipSize;
+        }
+        else
+        {
+            weaponStats.bulletsInClip = weaponStats.totalBullets;
+            weaponStats.totalBullets = 0;
+        }
     }
 }
