@@ -27,6 +27,9 @@ public class MovementComponentScript : MonoBehaviour
     public readonly int movementYHash = Animator.StringToHash("MovementY");
     public readonly int isJumpingHash = Animator.StringToHash("isJumping");
     public readonly int isRunningHash = Animator.StringToHash("isRunning");
+    public readonly int isFiringHash = Animator.StringToHash("isFiring");
+    public readonly int isReloadingHash = Animator.StringToHash("isReloading");
+    public readonly int aimVerticalHash = Animator.StringToHash("AimVertical");
 
 
     private void Awake()
@@ -35,6 +38,12 @@ public class MovementComponentScript : MonoBehaviour
         playerController = GetComponent<PlayerControllerScript>();
         rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
+
+        if (!GameManager.instance.cursorActive)
+        {
+            AppEvents.InvokeMouseCursorEnable(false);
+        }
+
     }
 
     // Start is called before the first frame update
@@ -56,9 +65,9 @@ public class MovementComponentScript : MonoBehaviour
 
         var angle = followTarget.transform.localEulerAngles.x;
 
-        if (angle > 180 && angle < 290)
+        if (angle > 180 && angle < 300)
         {
-            angles.x = 290;
+            angles.x = 300;
         }
         else if (angle < 180 && angle > 70)
         {
@@ -98,6 +107,10 @@ public class MovementComponentScript : MonoBehaviour
     }
     public void OnJump(InputValue value)
     {
+        if (playerController.isJumping)
+            return;
+
+
         playerController.isJumping = value.isPressed;
         rb.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
         playerAnimator.SetBool(isJumpingHash, playerController.isJumping);
@@ -111,7 +124,8 @@ public class MovementComponentScript : MonoBehaviour
     public void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
-
+        //playerAnimator.SetFloat(aimVerticalHash, lookInput.y);
+        
     }
 
 
