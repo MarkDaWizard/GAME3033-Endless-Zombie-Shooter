@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AK47Script : WeaponComponent
+public class AK47Component : WeaponComponent
 {
     // Start is called before the first frame update
     void Start()
@@ -16,11 +16,10 @@ public class AK47Script : WeaponComponent
         
     }
 
+    Vector3 hitLocation;
+
     protected override void FireWeapon()
     {
-        
-        
-        Vector3 hitLocation;
         if (weaponStats.bulletsInClip > 0 && !isReloading && !weaponHolder.playerController.isRunning)
         {
             base.FireWeapon();
@@ -33,6 +32,10 @@ public class AK47Script : WeaponComponent
             if (Physics.Raycast(screenRay, out RaycastHit hit, weaponStats.fireDistance, weaponStats.weaponHitLayer))
             {
                 hitLocation = hit.point;
+
+                DealDamage(hit);
+
+
                 Vector3 hitDirection = hit.point - mainCamera.transform.position;
                 Debug.DrawRay(mainCamera.transform.position, hitDirection.normalized * weaponStats.fireDistance, Color.red, 1);
             }
@@ -41,6 +44,17 @@ public class AK47Script : WeaponComponent
         {
             weaponHolder.StartReloading();
         }
-         
+
+        void DealDamage(RaycastHit hitInfo)
+        {
+            IDamageable damageable = hitInfo.collider.GetComponent<IDamageable>();
+            damageable?.TakeDamage(weaponStats.damage);
+        }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(hitLocation, 0.2f);
+        }
+
     }
 }

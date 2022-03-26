@@ -12,12 +12,12 @@ public class WeaponAmmoUI : MonoBehaviour
     // Start is called before the first frame update
     private void OnEnable()
     {
-        PlayerEvent.OnWeaponEquipped += OnWeaponEquipped;
+        PlayerEvents.OnWeaponEquipped += OnWeaponEquipped;
     }
 
     private void OnDisable()
     {
-        PlayerEvent.OnWeaponEquipped -= OnWeaponEquipped; 
+        PlayerEvents.OnWeaponEquipped -= OnWeaponEquipped; 
     }
 
     void OnWeaponEquipped(WeaponComponent _weaponComponent)

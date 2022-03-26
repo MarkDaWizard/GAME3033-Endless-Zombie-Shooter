@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerEvent
+public class PlayerEvents
 {
     public delegate void OnWeaponEquippedEvent(WeaponComponent weaponComponent);
 
@@ -11,5 +11,14 @@ public class PlayerEvent
     public static void InvokeOnWeaponEquipped(WeaponComponent weaponComponent)
     {
         OnWeaponEquipped?.Invoke(weaponComponent);
+    }
+
+    public delegate void OnHealthInitializeEvent(HealthComponent healthComponent);
+
+    public static event OnHealthInitializeEvent OnHealthInitialized;
+
+    public static void Invoke_OnHealthInitialized(HealthComponent healthComponent)
+    {
+        OnHealthInitialized?.Invoke(healthComponent);
     }
 }

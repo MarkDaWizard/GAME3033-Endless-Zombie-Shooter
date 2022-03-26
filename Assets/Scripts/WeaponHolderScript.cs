@@ -31,7 +31,7 @@ public class WeaponHolderScript : MonoBehaviour
         GameObject spawnWeapon = Instantiate(weaponToSpawn, weaponSocket.transform.position, weaponSocket.transform.rotation, weaponSocket.transform);
         equippedWeapon = spawnWeapon.GetComponent<WeaponComponent>();
         equippedWeapon.Initialized(this);
-        PlayerEvent.InvokeOnWeaponEquipped(equippedWeapon);
+        PlayerEvents.InvokeOnWeaponEquipped(equippedWeapon);
         gripIKSocket = equippedWeapon.gripLocation;
     }
     public void Awake()
@@ -92,13 +92,13 @@ public class WeaponHolderScript : MonoBehaviour
 
     public void StartReloading()
     {
-        
+        if (equippedWeapon.isReloading || equippedWeapon.weaponStats.bulletsInClip == equippedWeapon.weaponStats.clipSize) return;
         if (playerController.isFiring)
         {
             StopFiring();
         }
-        if (equippedWeapon.weaponStats.totalBullets <= 0) return;
         
+
         animator.SetBool(isReloadingHash, true);
         equippedWeapon.StartReloading();
         
